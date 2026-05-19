@@ -1298,6 +1298,11 @@ const PARTICIPANTS = [
     "dept": "100MEGA"
   },
   {
+    "name": "Rampula Michal",
+    "email": "michal.rampula@100mega.cz",
+    "dept": "100MEGA"
+  },
+  {
     "name": "Trulay Jaroslav",
     "email": "trulay@asm.cz",
     "dept": "ASM"
@@ -1312,7 +1317,7 @@ function sanitizeStaticResponse(input) {
   const cleanValue = (value) => String(value || "").trim();
   const cleanEmail = (value) => cleanValue(value).toLowerCase();
   return {
-    id: `1779183575463-${Math.random().toString(16).slice(2)}`, createdAt: new Date().toISOString(), name: person.name, email: person.email, dept: person.dept,
+    id: Date.now() + "-" + Math.random().toString(16).slice(2), createdAt: new Date().toISOString(), name: person.name, email: person.email, dept: person.dept,
     n8nStatus: cleanValue(input.n8nStatus), n8nEmail: cleanEmail(input.n8nEmail), googleStatus: cleanValue(input.googleStatus), googleEmail: cleanEmail(input.googleEmail),
     claudeStatus: cleanValue(input.claudeStatus), claudeEmail: cleanEmail(input.claudeEmail), claudeLicense: cleanValue(input.claudeLicense),
     geminiStatus: cleanValue(input.geminiStatus), geminiEmail: cleanEmail(input.geminiEmail), chatgptStatus: cleanValue(input.chatgptStatus), chatgptEmail: cleanEmail(input.chatgptEmail),
