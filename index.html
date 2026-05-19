@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Příprava na školení AI - 100MEGA</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="header">
+        <div class="logo-line">
+          <div class="logo-dot"></div>
+          <span class="logo-text">100MEGA Distribution · AI Adopce</span>
+        </div>
+        <div class="header-grid">
+          <div>
+            <h1>Příprava na<br><span>školení AI</span></h1>
+        <p class="subtitle">Kontrola požadavků, které je potřeba splnit před školením.</p>
+          </div>
+          <button class="ghost-link organizer-link" id="showDashboard" type="button">Přehled pro organizátory</button>
+        </div>
+      </header>
+
+      <section id="formScreen">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="stepLabel">Krok 1 ze 3</span>
+            <span id="stepPct">0 %</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <form id="prepForm">
+          <section class="step active" data-step="1">
+            <div class="card compact-card">
+              <div class="section-title">Krok 1 - kdo vyplňuje</div>
+              <p class="hint">Vyber své jméno ze seznamu účastníků.</p>
+              <div class="name-grid" id="nameGrid"></div>
+            </div>
+          </section>
+
+          <section class="step" data-step="2">
+            <div class="card">
+              <div class="section-title">Krok 2 - účty a AI nástroje</div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">01</span> n8n účet <span class="required">*</span></div>
+                <div class="yn-row" data-name="n8nStatus">
+                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
+                  <button class="yn-btn maybe" type="button" data-value="Registruji">Registruji</button>
+                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
+                </div>
+                <label class="field conditional" data-show-for="n8nStatus" data-values="Mám účet,Registruji">
+                  Jaký e-mail je použitý pro n8n?
+                  <input name="n8nEmail" type="email" placeholder="e-mail pro n8n účet">
+                </label>
+              </div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">02</span> Google účet <span class="required">*</span></div>
+                <div class="yn-row" data-name="googleStatus">
+                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
+                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
+                  <button class="yn-btn maybe" type="button" data-value="Nevím">Nevím</button>
+                </div>
+                <label class="field conditional" data-show-for="googleStatus" data-values="Mám účet">
+                  Jaký Google e-mail budeš používat?
+                  <input name="googleEmail" type="email" placeholder="gmail nebo firemní Google účet">
+                </label>
+              </div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">03</span> Claude účet <span class="required">*</span></div>
+                <div class="yn-row" data-name="claudeStatus">
+                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
+                  <button class="yn-btn maybe" type="button" data-value="Registruji">Registruji</button>
+                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
+                </div>
+                <div class="grid two conditional" data-show-for="claudeStatus" data-values="Mám účet,Registruji">
+                  <label class="field">
+                    Jaký e-mail je použitý pro Claude?
+                    <input name="claudeEmail" type="email" placeholder="e-mail pro claude.ai">
+                  </label>
+                  <label class="field">
+                    Typ účtu / licence
+                    <select name="claudeLicense">
+                      <option value="">Vyberte</option>
+                      <option>Free účet</option>
+                      <option>Placená licence</option>
+                      <option>Firemní licence</option>
+                      <option>Nevím</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">04</span> Ostatní webové AI nástroje</div>
+                <div class="tool-grid">
+                  <label class="field">
+                    Gemini
+                    <select name="geminiStatus" data-detail-target="geminiEmail">
+                      <option value="">Vyberte</option>
+                      <option>Mám účet / funguje</option>
+                      <option>Nemám účet</option>
+                      <option>Nefunguje / blokováno</option>
+                      <option>Nevím</option>
+                    </select>
+                    <input class="tool-email" name="geminiEmail" type="email" placeholder="e-mail pro Gemini">
+                  </label>
+                  <label class="field">
+                    ChatGPT
+                    <select name="chatgptStatus" data-detail-target="chatgptEmail">
+                      <option value="">Vyberte</option>
+                      <option>Mám účet / funguje</option>
+                      <option>Nemám účet</option>
+                      <option>Nefunguje / blokováno</option>
+                      <option>Nevím</option>
+                    </select>
+                    <input class="tool-email" name="chatgptEmail" type="email" placeholder="e-mail pro ChatGPT">
+                  </label>
+                  <label class="field">
+                    Perplexity
+                    <select name="perplexityStatus" data-detail-target="perplexityEmail">
+                      <option value="">Vyberte</option>
+                      <option>Mám účet / funguje</option>
+                      <option>Nemám účet</option>
+                      <option>Nefunguje / blokováno</option>
+                      <option>Nevím</option>
+                    </select>
+                    <input class="tool-email" name="perplexityEmail" type="email" placeholder="e-mail pro Perplexity">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="step" data-step="3">
+            <div class="card">
+              <div class="section-title">Krok 3 - software a technika</div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">05</span> Visual Studio Code nebo editor pro .md <span class="required">*</span></div>
+                <div class="yn-row" data-name="vscodeStatus">
+                  <button class="yn-btn yes" type="button" data-value="VS Code nainstalovaný">VS Code mám</button>
+                  <button class="yn-btn maybe" type="button" data-value="Jiný editor">Jiný editor</button>
+                  <button class="yn-btn no" type="button" data-value="Nemám editor">Nemám</button>
+                </div>
+                <label class="field conditional" data-show-for="vscodeStatus" data-values="Jiný editor">
+                  Jaký editor používáš?
+                  <input name="editorOther" type="text" placeholder="např. Sublime Text, Notepad++">
+                </label>
+              </div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">06</span> Claude Cowork desktop aplikace</div>
+                <div class="yn-row" data-name="coworkStatus">
+                  <button class="yn-btn yes" type="button" data-value="Nainstalováno">Nainstalováno</button>
+                  <button class="yn-btn no" type="button" data-value="Není nainstalováno">Nemám</button>
+                  <button class="yn-btn maybe" type="button" data-value="Nevím / potřebuji pomoct">Nevím</button>
+                  <button class="yn-btn neutral" type="button" data-value="Netýká se mě">Netýká se mě</button>
+                </div>
+              </div>
+
+              <div class="q-block">
+                <div class="q-title"><span class="q-num">07</span> Claude Code a terminál</div>
+                <div class="grid two">
+                  <label class="field">
+                    Claude Code
+                    <select name="claudeCodeStatus">
+                      <option value="">Vyberte</option>
+                      <option>Chci využívat pro programování</option>
+                      <option>Neplánuji využívat</option>
+                      <option>Nevím, chci se poradit</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    Terminál / IDE
+                    <select name="terminalStatus">
+                      <option value="">Vyberte</option>
+                      <option>Připraveno</option>
+                      <option>Není připraveno</option>
+                      <option>Nevím</option>
+                      <option>Netýká se mě</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="q-block it-notice">
+                Hyper-V je hlavně pro IT / pokročilejší technickou část. Pokud nejsi z IT, můžeš vybrat „Netýká se mě“.
+              </div>
+              <div class="grid two">
+                <label class="field">
+                  Hyper-V
+                  <select name="hypervStatus">
+                    <option value="">Vyberte</option>
+                    <option>Aktivní</option>
+                    <option>Není aktivní</option>
+                    <option>Nevím / potřebuji admina</option>
+                    <option>Netýká se mě</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Platforma pro virtuální počítače
+                  <select name="virtualMachinePlatformStatus">
+                    <option value="">Vyberte</option>
+                    <option>Aktivní</option>
+                    <option>Není aktivní</option>
+                    <option>Nevím / potřebuji admina</option>
+                    <option>Netýká se mě</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="grid two gap-top">
+                <label class="field">
+                  Přístup k internetu / AI webům <span class="required">*</span>
+                  <select name="internetStatus" required>
+                    <option value="">Vyberte</option>
+                    <option>Ověřeno, funguje</option>
+                    <option>Něco je blokováno</option>
+                    <option>Nemám ověřeno</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Přístup k e-mailu pro přihlášení <span class="required">*</span>
+                  <select name="emailAccessStatus" required>
+                    <option value="">Vyberte</option>
+                    <option>Mám přístup</option>
+                    <option>Nemám přístup</option>
+                    <option>Nevím</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Soubory .xlsx, .docx, .pptx, .pdf <span class="required">*</span>
+                  <select name="filesStatus" required>
+                    <option value="">Vyberte</option>
+                    <option>Umím otevřít/upravit vše</option>
+                    <option>Částečně</option>
+                    <option>Neumím / nemám aplikace</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Poznámka k technické přípravě
+                  <input name="technicalNote" type="text" placeholder="např. nejde registrace, nemám admina">
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <div class="btn-row">
+            <button class="btn-back" id="prevBtn" type="button">Zpět</button>
+            <button class="btn-next" id="nextBtn" type="button">Pokračovat</button>
+            <button class="btn-next" id="submitBtn" type="submit">Odeslat odpovědi</button>
+          </div>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </form>
+      </section>
+
+      <section id="successScreen" class="success hidden">
+        <span class="success-icon">✓</span>
+        <h2>Hotovo, <span id="successName"></span></h2>
+        <p>Odpovědi jsou uloženy v organizačním přehledu.</p>
+        <div class="summary-box" id="summaryBox"></div>
+        <div class="btn-row success-actions">
+          <button class="btn-next" id="copySummaryBtn" type="button">Zkopírovat shrnutí</button>
+          <button class="btn-next" id="emailSummaryBtn" type="button">Otevřít e-mail se shrnutím</button>
+          <button class="btn-back" id="newResponseBtn" type="button">Vyplnit další odpověď</button>
+        </div>
+      </section>
+
+      <section id="dashboardScreen" class="hidden">
+        <div class="dashboard-head">
+          <div>
+            <div class="section-title">Organizační přehled</div>
+            <h2>Stav připravenosti týmu</h2>
+          </div>
+          <div class="btn-row compact">
+            <button class="btn-back" id="backToForm" type="button">Zavřít přehled</button>
+            <button class="btn-next" id="copyOverallSummary" type="button">Kopírovat souhrn</button>
+            <button class="btn-next" id="emailOverallSummary" type="button">E-mail se souhrnem</button>
+            <button class="btn-next" id="exportCsv" type="button">Export CSV</button>
+          </div>
+        </div>
+        <div class="metrics" id="metrics"></div>
+        <div class="overview-list" id="overviewRows"></div>
+      </section>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
