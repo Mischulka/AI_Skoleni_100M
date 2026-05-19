@@ -1,294 +1,870 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="cs">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Příprava na školení AI - 100MEGA</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body>
-    <div class="wrap">
-      <header class="header">
-        <div class="logo-line">
-          <div class="logo-dot"></div>
-          <span class="logo-text">100MEGA Distribution · AI Adopce</span>
-        </div>
-        <div class="header-grid">
-          <div>
-            <h1>Příprava na<br><span>školení AI</span></h1>
-        <p class="subtitle">Kontrola požadavků, které je potřeba splnit před školením.</p>
-          </div>
-          <button class="ghost-link organizer-link" id="showDashboard" type="button">Přehled pro organizátory</button>
-        </div>
-      </header>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Příprava na školení AI — 100MEGA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f0d;
+  --surface: #1a1a17;
+  --surface2: #242420;
+  --border: #2e2e28;
+  --border2: #3d3d35;
+  --text: #f0ede6;
+  --text2: #aaa69d;
+  --text3: #6c695f;
+  --accent: #d4f060;
+  --accent-dark: #9db82a;
+  --accent-fg: #0f0f0d;
+  --green: #4caf7d;
+  --green-bg: rgba(76,175,125,.12);
+  --amber: #f0a040;
+  --amber-bg: rgba(240,160,64,.12);
+  --red: #e05555;
+  --red-bg: rgba(224,85,85,.1);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --panel-bg: linear-gradient(145deg,rgba(255,255,255,.075),rgba(0,0,0,.08)),var(--surface);
+  --control-bg: linear-gradient(145deg,rgba(255,255,255,.075),rgba(0,0,0,.08)),var(--surface2);
+  --panel-shadow: inset 0 1px 0 rgba(255,255,255,.09),inset 0 -16px 28px rgba(0,0,0,.12),0 20px 42px rgba(0,0,0,.28);
+  --control-shadow: inset 0 1px 0 rgba(255,255,255,.09),inset 0 -12px 22px rgba(0,0,0,.12),0 10px 20px rgba(0,0,0,.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.wrap{max-width:900px;margin:0 auto;padding:48px 24px 80px;position:relative;z-index:1}
 
-      <section id="formScreen">
-        <div class="progress-wrap">
-          <div class="progress-label">
-            <span id="stepLabel">Krok 1 ze 3</span>
-            <span id="stepPct">0 %</span>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        </div>
+/* Header */
+.header{margin-bottom:36px}
+.logo-line{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.logo-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+.logo-text{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.header-grid{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+h1{font-family:'Syne',sans-serif;font-size:clamp(30px,6vw,48px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+h1 span{color:var(--accent)}
+h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em}
+.subtitle{color:var(--text2);margin-top:10px;font-size:15px}
 
-        <form id="prepForm">
-          <section class="step active" data-step="1">
-            <div class="card compact-card">
-              <div class="section-title">Krok 1 - kdo vyplňuje</div>
-              <p class="hint">Vyber své jméno ze seznamu účastníků.</p>
-              <div class="name-grid" id="nameGrid"></div>
-            </div>
-          </section>
+/* Dashboard button */
+.ghost-link{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:10px 16px;border-radius:8px;cursor:pointer;background:linear-gradient(145deg,rgba(212,240,96,.18),rgba(0,0,0,.1)),var(--surface2);border:1px solid rgba(212,240,96,.38);color:var(--accent);box-shadow:var(--control-shadow);transition:all .15s;white-space:nowrap}
+.ghost-link:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
 
-          <section class="step" data-step="2">
-            <div class="card">
-              <div class="section-title">Krok 2 - účty a AI nástroje</div>
+/* Progress */
+.progress-wrap{margin-bottom:28px}
+.progress-label{display:flex;justify-content:space-between;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s ease;width:0%}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">01</span> n8n účet <span class="required">*</span></div>
-                <div class="yn-row" data-name="n8nStatus">
-                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
-                  <button class="yn-btn maybe" type="button" data-value="Registruji">Registruji</button>
-                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
-                </div>
-                <label class="field conditional" data-show-for="n8nStatus" data-values="Mám účet,Registruji">
-                  Jaký e-mail je použitý pro n8n?
-                  <input name="n8nEmail" type="email" placeholder="e-mail pro n8n účet">
-                </label>
-              </div>
+/* Steps */
+.step{display:none}
+.step.active{display:block;animation:fadeIn .25s ease}
+.hidden{display:none!important}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">02</span> Google účet <span class="required">*</span></div>
-                <div class="yn-row" data-name="googleStatus">
-                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
-                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
-                  <button class="yn-btn maybe" type="button" data-value="Nevím">Nevím</button>
-                </div>
-                <label class="field conditional" data-show-for="googleStatus" data-values="Mám účet">
-                  Jaký Google e-mail budeš používat?
-                  <input name="googleEmail" type="email" placeholder="gmail nebo firemní Google účet">
-                </label>
-              </div>
+/* Card */
+.card{background:var(--panel-bg);border:1px solid rgba(255,255,255,.075);border-radius:var(--radius-lg);box-shadow:var(--panel-shadow);padding:24px;margin-bottom:16px}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">03</span> Claude účet <span class="required">*</span></div>
-                <div class="yn-row" data-name="claudeStatus">
-                  <button class="yn-btn yes" type="button" data-value="Mám účet">Ano, mám</button>
-                  <button class="yn-btn maybe" type="button" data-value="Registruji">Registruji</button>
-                  <button class="yn-btn no" type="button" data-value="Nemám">Nemám</button>
-                </div>
-                <div class="grid two conditional" data-show-for="claudeStatus" data-values="Mám účet,Registruji">
-                  <label class="field">
-                    Jaký e-mail je použitý pro Claude?
-                    <input name="claudeEmail" type="email" placeholder="e-mail pro claude.ai">
-                  </label>
-                  <label class="field">
-                    Typ účtu / licence
-                    <select name="claudeLicense">
-                      <option value="">Vyberte</option>
-                      <option>Free účet</option>
-                      <option>Placená licence</option>
-                      <option>Firemní licence</option>
-                      <option>Nevím</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
+/* Section title */
+.section-title{display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;background:rgba(212,240,96,.08);border:1px solid rgba(212,240,96,.18);border-radius:999px;padding:5px 12px;margin-bottom:18px}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">04</span> Ostatní webové AI nástroje</div>
-                <div class="tool-grid">
-                  <label class="field">
-                    Gemini
-                    <select name="geminiStatus" data-detail-target="geminiEmail">
-                      <option value="">Vyberte</option>
-                      <option>Mám účet / funguje</option>
-                      <option>Nemám účet</option>
-                      <option>Nefunguje / blokováno</option>
-                      <option>Nevím</option>
-                    </select>
-                    <input class="tool-email" name="geminiEmail" type="email" placeholder="e-mail pro Gemini">
-                  </label>
-                  <label class="field">
-                    ChatGPT
-                    <select name="chatgptStatus" data-detail-target="chatgptEmail">
-                      <option value="">Vyberte</option>
-                      <option>Mám účet / funguje</option>
-                      <option>Nemám účet</option>
-                      <option>Nefunguje / blokováno</option>
-                      <option>Nevím</option>
-                    </select>
-                    <input class="tool-email" name="chatgptEmail" type="email" placeholder="e-mail pro ChatGPT">
-                  </label>
-                  <label class="field">
-                    Perplexity
-                    <select name="perplexityStatus" data-detail-target="perplexityEmail">
-                      <option value="">Vyberte</option>
-                      <option>Mám účet / funguje</option>
-                      <option>Nemám účet</option>
-                      <option>Nefunguje / blokováno</option>
-                      <option>Nevím</option>
-                    </select>
-                    <input class="tool-email" name="perplexityEmail" type="email" placeholder="e-mail pro Perplexity">
-                  </label>
-                </div>
-              </div>
-            </div>
-          </section>
+/* Name grid */
+.name-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.name-btn{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:var(--control-bg);color:var(--text);cursor:pointer;text-align:left;box-shadow:var(--control-shadow);transition:all .15s;line-height:1.3}
+.name-btn:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--control-shadow),0 4px 12px rgba(0,0,0,.2)}
+.name-btn.selected{background:rgba(212,240,96,.08);border-color:var(--accent);color:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 16px 32px rgba(212,240,96,.15)}
+.name-btn .dept{display:block;font-size:11px;font-weight:400;color:var(--text3);margin-top:3px}
+.name-btn.selected .dept{color:var(--accent-dark)}
 
-          <section class="step" data-step="3">
-            <div class="card">
-              <div class="section-title">Krok 3 - software a technika</div>
+/* Question blocks */
+.q-block{border-top:1px solid rgba(212,240,96,.1);padding-top:22px;margin-bottom:28px}
+.q-block:first-of-type{border-top:none;padding-top:0}
+.q-block:last-child{margin-bottom:0}
+.q-title{display:inline-flex;align-items:flex-start;gap:8px;font-size:13px;font-weight:700;color:var(--accent);background:rgba(212,240,96,.08);border:1px solid rgba(212,240,96,.22);border-radius:10px;padding:6px 10px;margin-bottom:12px}
+.q-num{background:var(--accent);color:var(--accent-fg);border-radius:999px;font-size:9px;font-weight:800;padding:3px 6px;line-height:1;margin-top:3px;flex-shrink:0}
+.required{color:var(--red);font-size:12px;margin-top:3px}
+.hint-text{font-size:12px;color:var(--text3);margin-top:6px}
+.hint-text a{color:var(--accent);text-decoration:none}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">05</span> Visual Studio Code nebo editor pro .md <span class="required">*</span></div>
-                <div class="yn-row" data-name="vscodeStatus">
-                  <button class="yn-btn yes" type="button" data-value="VS Code nainstalovaný">VS Code mám</button>
-                  <button class="yn-btn maybe" type="button" data-value="Jiný editor">Jiný editor</button>
-                  <button class="yn-btn no" type="button" data-value="Nemám editor">Nemám</button>
-                </div>
-                <label class="field conditional" data-show-for="vscodeStatus" data-values="Jiný editor">
-                  Jaký editor používáš?
-                  <input name="editorOther" type="text" placeholder="např. Sublime Text, Notepad++">
-                </label>
-              </div>
+/* YN buttons */
+.yn-row{display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.yn-row.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.yn-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:var(--control-bg);color:var(--text2);cursor:pointer;box-shadow:var(--control-shadow);transition:all .15s;min-height:44px}
+.yn-btn:hover{border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
+.yn-btn.selected.yes{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.yn-btn.selected.no{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.yn-btn.selected.maybe{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.yn-btn.selected.neutral{background:rgba(108,105,95,.15);border-color:var(--border2);color:var(--text2)}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">06</span> Claude Cowork desktop aplikace</div>
-                <div class="yn-row" data-name="coworkStatus">
-                  <button class="yn-btn yes" type="button" data-value="Nainstalováno">Nainstalováno</button>
-                  <button class="yn-btn no" type="button" data-value="Není nainstalováno">Nemám</button>
-                  <button class="yn-btn maybe" type="button" data-value="Nevím / potřebuji pomoct">Nevím</button>
-                  <button class="yn-btn neutral" type="button" data-value="Netýká se mě">Netýká se mě</button>
-                </div>
-              </div>
+/* Inputs */
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px;margin-top:14px}
+input[type=text],input[type=email],select,textarea{width:100%;font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 13px;background:var(--control-bg);border:1px solid rgba(255,255,255,.07);border-radius:8px;color:var(--text);outline:none;box-shadow:var(--control-shadow);transition:border-color .15s;min-height:42px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent-dark)}
+textarea{resize:vertical;min-height:80px}
+select option{background:#242420;color:var(--text)}
 
-              <div class="q-block">
-                <div class="q-title"><span class="q-num">07</span> Claude Code a terminál</div>
-                <div class="grid two">
-                  <label class="field">
-                    Claude Code
-                    <select name="claudeCodeStatus">
-                      <option value="">Vyberte</option>
-                      <option>Chci využívat pro programování</option>
-                      <option>Neplánuji využívat</option>
-                      <option>Nevím, chci se poradit</option>
-                    </select>
-                  </label>
-                  <label class="field">
-                    Terminál / IDE
-                    <select name="terminalStatus">
-                      <option value="">Vyberte</option>
-                      <option>Připraveno</option>
-                      <option>Není připraveno</option>
-                      <option>Nevím</option>
-                      <option>Netýká se mě</option>
-                    </select>
-                  </label>
-                </div>
-              </div>
+/* Conditional fields */
+.conditional{display:none;margin-top:10px}
+.conditional.show{display:block}
 
-              <div class="q-block it-notice">
-                Hyper-V je hlavně pro IT / pokročilejší technickou část. Pokud nejsi z IT, můžeš vybrat „Netýká se mě“.
-              </div>
-              <div class="grid two">
-                <label class="field">
-                  Hyper-V
-                  <select name="hypervStatus">
-                    <option value="">Vyberte</option>
-                    <option>Aktivní</option>
-                    <option>Není aktivní</option>
-                    <option>Nevím / potřebuji admina</option>
-                    <option>Netýká se mě</option>
-                  </select>
-                </label>
-                <label class="field">
-                  Platforma pro virtuální počítače
-                  <select name="virtualMachinePlatformStatus">
-                    <option value="">Vyberte</option>
-                    <option>Aktivní</option>
-                    <option>Není aktivní</option>
-                    <option>Nevím / potřebuji admina</option>
-                    <option>Netýká se mě</option>
-                  </select>
-                </label>
-              </div>
+/* Grid */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 
-              <div class="grid two gap-top">
-                <label class="field">
-                  Přístup k internetu / AI webům <span class="required">*</span>
-                  <select name="internetStatus" required>
-                    <option value="">Vyberte</option>
-                    <option>Ověřeno, funguje</option>
-                    <option>Něco je blokováno</option>
-                    <option>Nemám ověřeno</option>
-                  </select>
-                </label>
-                <label class="field">
-                  Přístup k e-mailu pro přihlášení <span class="required">*</span>
-                  <select name="emailAccessStatus" required>
-                    <option value="">Vyberte</option>
-                    <option>Mám přístup</option>
-                    <option>Nemám přístup</option>
-                    <option>Nevím</option>
-                  </select>
-                </label>
-                <label class="field">
-                  Soubory .xlsx, .docx, .pptx, .pdf <span class="required">*</span>
-                  <select name="filesStatus" required>
-                    <option value="">Vyberte</option>
-                    <option>Umím otevřít/upravit vše</option>
-                    <option>Částečně</option>
-                    <option>Neumím / nemám aplikace</option>
-                  </select>
-                </label>
-                <label class="field">
-                  Poznámka k technické přípravě
-                  <input name="technicalNote" type="text" placeholder="např. nejde registrace, nemám admina">
-                </label>
-              </div>
-            </div>
-          </section>
+/* IT notice */
+.it-notice{background:rgba(240,160,64,.08);border:1px solid rgba(240,160,64,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--amber);margin-bottom:14px}
 
-          <div class="btn-row">
-            <button class="btn-back" id="prevBtn" type="button">Zpět</button>
-            <button class="btn-next" id="nextBtn" type="button">Pokračovat</button>
-            <button class="btn-next" id="submitBtn" type="submit">Odeslat odpovědi</button>
-          </div>
-          <p class="form-status" id="formStatus" role="status"></p>
-        </form>
-      </section>
+/* Buttons */
+.btn-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn-next{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 12px 24px rgba(212,240,96,.16);transition:all .15s;letter-spacing:.01em}
+.btn-next:hover{background:#c8e850;transform:translateY(-1px);box-shadow:0 4px 20px rgba(212,240,96,.25)}
+.btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-back{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px 18px;border-radius:8px;border:1px solid rgba(212,240,96,.35);background:var(--control-bg);color:var(--accent);cursor:pointer;box-shadow:var(--control-shadow);transition:all .15s}
+.btn-back:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
 
-      <section id="successScreen" class="success hidden">
-        <span class="success-icon">✓</span>
-        <h2>Hotovo, <span id="successName"></span></h2>
-        <p>Odpovědi jsou uloženy v organizačním přehledu.</p>
-        <div class="summary-box" id="summaryBox"></div>
-        <div class="btn-row success-actions">
-          <button class="btn-next" id="copySummaryBtn" type="button">Zkopírovat shrnutí</button>
-          <button class="btn-next" id="emailSummaryBtn" type="button">Otevřít e-mail se shrnutím</button>
-          <button class="btn-back" id="newResponseBtn" type="button">Vyplnit další odpověď</button>
-        </div>
-      </section>
+/* Success */
+.success{text-align:center;padding:28px 0}
+.success-icon{display:inline-flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:50%;background:var(--accent);color:var(--accent-fg);font-size:32px;font-weight:900;margin-bottom:20px}
+.success h2 span{color:var(--accent)}
+.success p{color:var(--text2);margin-top:8px}
 
-      <section id="dashboardScreen" class="hidden">
-        <div class="dashboard-head">
-          <div>
-            <div class="section-title">Organizační přehled</div>
-            <h2>Stav připravenosti týmu</h2>
-          </div>
-          <div class="btn-row compact">
-            <button class="btn-back" id="backToForm" type="button">Zavřít přehled</button>
-            <button class="btn-next" id="copyOverallSummary" type="button">Kopírovat souhrn</button>
-            <button class="btn-next" id="emailOverallSummary" type="button">E-mail se souhrnem</button>
-            <button class="btn-next" id="exportCsv" type="button">Export CSV</button>
-          </div>
-        </div>
-        <div class="metrics" id="metrics"></div>
-        <div class="overview-list" id="overviewRows"></div>
-      </section>
+/* Summary box */
+.summary-box{background:var(--panel-bg);border:1px solid rgba(255,255,255,.075);border-radius:var(--radius-lg);box-shadow:var(--panel-shadow);padding:18px;margin:24px auto;text-align:left;max-width:700px}
+.summary-row{display:grid;grid-template-columns:200px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border-bottom:none}
+.summary-key{color:var(--text3);font-size:13px}
+.summary-val{font-weight:600;font-size:13px}
+.summary-val.ok{color:var(--green)}
+.summary-val.warn{color:var(--amber)}
+.summary-val.bad{color:var(--red)}
+
+/* Dashboard */
+#dashboardScreen{padding-top:24px}
+.dashboard-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.metric{background:var(--panel-bg);border:1px solid rgba(255,255,255,.075);border-radius:var(--radius-lg);box-shadow:var(--panel-shadow);padding:16px}
+.metric strong{display:block;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent)}
+.metric span{color:var(--text3);font-size:13px}
+.overview-list{display:grid;gap:10px}
+.overview-card{background:var(--panel-bg);border:1px solid rgba(255,255,255,.075);border-radius:var(--radius-lg);box-shadow:var(--panel-shadow);padding:16px}
+.overview-person{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;width:100%;background:none;border:none;color:inherit;cursor:pointer;font:inherit;text-align:left;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.overview-card.collapsed .overview-person{border-bottom:none;padding-bottom:0}
+.overview-card.collapsed .overview-details{display:none}
+.overview-details{padding-top:12px}
+.person-name{font-weight:700;color:var(--text)}
+.person-email{font-size:12px;color:var(--text3)}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px}
+.badge.ok{background:var(--green-bg);color:var(--green)}
+.badge.warn{background:var(--amber-bg);color:var(--amber)}
+.badge.bad{background:var(--red-bg);color:var(--red)}
+.detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding-top:4px}
+.detail-section h3{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.detail-line{font-size:12px;margin-bottom:5px;color:var(--text2)}
+.toggle-hint{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+
+/* Notice toast */
+.notice{position:fixed;bottom:24px;left:50%;transform:translate(-50%,12px);background:var(--accent);color:var(--accent-fg);padding:12px 20px;border-radius:8px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:all .2s;z-index:50}
+.notice.show{opacity:1;transform:translate(-50%,0)}
+
+/* Responsive */
+@media(max-width:700px){
+  .wrap{padding:24px 14px 60px}
+  .name-grid,.grid-2,.grid-3,.metrics,.detail-grid{grid-template-columns:1fr}
+  .yn-row,.yn-row.four{grid-template-columns:1fr 1fr}
+  .header-grid{flex-direction:column}
+  .btn-row{flex-direction:column}
+  .summary-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo-line">
+      <div class="logo-dot"></div>
+      <span class="logo-text">100MEGA Distribution · AI Adopce</span>
+    </div>
+    <div class="header-grid">
+      <div>
+        <h1>Příprava na<br><span>školení AI</span></h1>
+        <p class="subtitle">Kontrola požadavků před školením · Vyplň prosím do čtvrtka 22. 5.</p>
+      </div>
+      <button class="ghost-link" id="btnDashboard">📊 Přehled pro organizátory</button>
+    </div>
+  </header>
+
+  <!-- FORM SCREEN -->
+  <section id="formScreen">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="stepLabel">Krok 1 ze 3</span>
+        <span id="stepPct">0 %</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
 
-    <script src="/app.js"></script>
-  </body>
+    <!-- STEP 1: Kdo vyplňuje -->
+    <div class="step active" data-step="1">
+      <div class="card">
+        <div class="section-title">Krok 1 — Kdo vyplňuje</div>
+        <p class="subtitle">Vyber své jméno ze seznamu účastníků školení:</p>
+        <div class="name-grid" id="nameGrid"></div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Účty a AI nástroje -->
+    <div class="step" data-step="2">
+      <div class="card">
+        <div class="section-title">Krok 2 — Účty a AI nástroje</div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">01</span>n8n účet<span class="required">*</span></div>
+          <div class="yn-row" id="yn-n8n">
+            <button class="yn-btn yes" data-val="Mám účet">✓ Ano, mám</button>
+            <button class="yn-btn maybe" data-val="Registruji">⟳ Registruji</button>
+            <button class="yn-btn no" data-val="Nemám">✗ Nemám</button>
+          </div>
+          <div class="conditional" id="cond-n8n">
+            <label class="field-label">E-mail použitý pro n8n účet:</label>
+            <input type="email" id="n8nEmail" placeholder="tvůj@email.cz">
+          </div>
+          <p class="hint-text">Registrace zdarma: <a href="https://n8n.io" target="_blank">n8n.io</a> · 14denní trial</p>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">02</span>Google účet (Gmail)<span class="required">*</span></div>
+          <div class="yn-row" id="yn-google">
+            <button class="yn-btn yes" data-val="Mám účet">✓ Ano, mám</button>
+            <button class="yn-btn no" data-val="Nemám">✗ Nemám</button>
+            <button class="yn-btn maybe" data-val="Nevím">? Nevím</button>
+          </div>
+          <div class="conditional" id="cond-google">
+            <label class="field-label">Jaký Google e-mail budeš používat:</label>
+            <input type="email" id="googleEmail" placeholder="tvůj@gmail.com">
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">03</span>Claude účet<span class="required">*</span></div>
+          <div class="yn-row" id="yn-claude">
+            <button class="yn-btn yes" data-val="Mám účet">✓ Ano, mám</button>
+            <button class="yn-btn maybe" data-val="Registruji">⟳ Registruji</button>
+            <button class="yn-btn no" data-val="Nemám">✗ Nemám</button>
+          </div>
+          <div class="conditional" id="cond-claude">
+            <div class="grid-2">
+              <div>
+                <label class="field-label">E-mail pro claude.ai:</label>
+                <input type="email" id="claudeEmail" placeholder="tvůj@email.cz">
+              </div>
+              <div>
+                <label class="field-label">Typ účtu / licence:</label>
+                <select id="claudeLicense">
+                  <option value="">— vyber —</option>
+                  <option>Free účet</option>
+                  <option>Placená licence</option>
+                  <option>Firemní licence</option>
+                  <option>Nevím</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <p class="hint-text">Registrace: <a href="https://claude.ai" target="_blank">claude.ai</a></p>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">04</span>Ostatní webové AI nástroje</div>
+          <div class="grid-3">
+            <div>
+              <label class="field-label">Gemini</label>
+              <select id="geminiStatus">
+                <option value="">— vyber —</option>
+                <option>Mám účet / funguje</option>
+                <option>Nemám účet</option>
+                <option>Nefunguje / blokováno</option>
+                <option>Nevím</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">ChatGPT</label>
+              <select id="chatgptStatus">
+                <option value="">— vyber —</option>
+                <option>Mám účet / funguje</option>
+                <option>Nemám účet</option>
+                <option>Nefunguje / blokováno</option>
+                <option>Nevím</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Perplexity</label>
+              <select id="perplexityStatus">
+                <option value="">— vyber —</option>
+                <option>Mám účet / funguje</option>
+                <option>Nemám účet</option>
+                <option>Nefunguje / blokováno</option>
+                <option>Nevím</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" id="back2">← Zpět</button>
+        <button class="btn-next" id="next2" disabled>Pokračovat →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Software a technika -->
+    <div class="step" data-step="3">
+      <div class="card">
+        <div class="section-title">Krok 3 — Software a technika</div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">05</span>Visual Studio Code nebo editor pro .md soubory<span class="required">*</span></div>
+          <div class="yn-row four" id="yn-vscode">
+            <button class="yn-btn yes" data-val="VS Code nainstalovaný">✓ VS Code mám</button>
+            <button class="yn-btn maybe" data-val="Jiný editor">~ Jiný editor</button>
+            <button class="yn-btn no" data-val="Nemám editor">✗ Nemám</button>
+          </div>
+          <div class="conditional" id="cond-vscode">
+            <label class="field-label">Jaký editor používáš?</label>
+            <input type="text" id="editorOther" placeholder="např. Sublime Text, Notepad++">
+          </div>
+          <p class="hint-text">Stáhnout zdarma: <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a></p>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">06</span>Claude Cowork desktop aplikace</div>
+          <div class="yn-row four" id="yn-cowork">
+            <button class="yn-btn yes" data-val="Nainstalováno">✓ Mám</button>
+            <button class="yn-btn no" data-val="Není nainstalováno">✗ Nemám</button>
+            <button class="yn-btn maybe" data-val="Nevím / potřebuji pomoct">? Nevím</button>
+            <button class="yn-btn neutral" data-val="Netýká se mě">— Netýká se</button>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">07</span>Claude Code a terminál</div>
+          <div class="grid-2">
+            <div>
+              <label class="field-label">Claude Code</label>
+              <select id="claudeCodeStatus">
+                <option value="">— vyber —</option>
+                <option>Chci využívat pro programování</option>
+                <option>Neplánuji využívat</option>
+                <option>Nevím, chci se poradit</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Terminál / IDE</label>
+              <select id="terminalStatus">
+                <option value="">— vyber —</option>
+                <option>Připraveno</option>
+                <option>Není připraveno</option>
+                <option>Nevím</option>
+                <option>Netýká se mě</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="it-notice">⚠ Hyper-V je hlavně pro IT / pokročilejší část. Pokud nejsi z IT, vyber „Netýká se mě".</div>
+          <div class="grid-2">
+            <div>
+              <label class="field-label">Hyper-V</label>
+              <select id="hypervStatus">
+                <option value="">— vyber —</option>
+                <option>Aktivní</option>
+                <option>Není aktivní</option>
+                <option>Nevím / potřebuji admina</option>
+                <option>Netýká se mě</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Platforma pro virtuální počítače</label>
+              <select id="virtualMachineStatus">
+                <option value="">— vyber —</option>
+                <option>Aktivní</option>
+                <option>Není aktivní</option>
+                <option>Nevím / potřebuji admina</option>
+                <option>Netýká se mě</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">08</span>Přístup a technika<span class="required">*</span></div>
+          <div class="grid-2">
+            <div>
+              <label class="field-label">Přístup k internetu / AI webům *</label>
+              <select id="internetStatus">
+                <option value="">— vyber —</option>
+                <option>Ověřeno, funguje</option>
+                <option>Něco je blokováno</option>
+                <option>Nemám ověřeno</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Přístup k e-mailu pro přihlášení *</label>
+              <select id="emailAccessStatus">
+                <option value="">— vyber —</option>
+                <option>Mám přístup</option>
+                <option>Nemám přístup</option>
+                <option>Nevím</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Soubory .xlsx .docx .pptx .pdf *</label>
+              <select id="filesStatus">
+                <option value="">— vyber —</option>
+                <option>Umím otevřít / upravit vše</option>
+                <option>Částečně</option>
+                <option>Neumím / nemám aplikace</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label">Notebook s nabíječkou s sebou? *</label>
+              <select id="notebookStatus">
+                <option value="">— vyber —</option>
+                <option>Ano, vezmu</option>
+                <option>Nemám notebook</option>
+                <option>Nevím</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">09</span>Potřebuješ ubytování z čtvrtka na pátek v Brně?<span class="required">*</span></div>
+          <div class="yn-row" id="yn-ubytovani">
+            <button class="yn-btn yes" data-val="Ano, potřebuji">✓ Ano</button>
+            <button class="yn-btn no" data-val="Ne, nepotřebuji">✗ Ne</button>
+            <button class="yn-btn maybe" data-val="Ještě nevím">? Ještě nevím</button>
+          </div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-title"><span class="q-num">10</span>Dotaz nebo poznámka k přípravě</div>
+          <textarea id="technicalNote" placeholder="Cokoliv — technický problém, otázka, potřeba pomoci s instalací..."></textarea>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-back" id="back3">← Zpět</button>
+        <button class="btn-next" id="btnSubmit" disabled>✓ Odeslat odpovědi</button>
+      </div>
+      <p id="formStatus" style="margin-top:10px;font-size:13px;color:var(--accent)"></p>
+    </div>
+  </section>
+
+  <!-- SUCCESS SCREEN -->
+  <section id="successScreen" class="hidden">
+    <div class="card success">
+      <div class="success-icon">✓</div>
+      <h2>Hotovo, <span id="successName"></span>!</h2>
+      <p>Odpovědi byly uloženy. Uvidíme se na školení!</p>
+      <div class="summary-box" id="summaryBox"></div>
+      <div class="btn-row" style="justify-content:center;margin-top:0">
+        <button class="btn-next" id="btnCopySummary">📋 Zkopírovat shrnutí</button>
+        <button class="btn-back" id="btnNewResponse">Vyplnit za jiného kolegu</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD SCREEN -->
+  <section id="dashboardScreen" class="hidden">
+    <div class="dashboard-head">
+      <div>
+        <div class="section-title">Organizační přehled</div>
+        <h2>Stav připravenosti týmu</h2>
+      </div>
+      <div class="btn-row">
+        <button class="btn-back" id="btnBackToForm">← Zpět na formulář</button>
+        <button class="btn-next" id="btnExportCsv">⬇ Export CSV</button>
+        <button class="btn-next" id="btnCopyOverview">📋 Kopírovat souhrn</button>
+      </div>
+    </div>
+    <div class="metrics" id="metrics"></div>
+    <div class="overview-list" id="overviewList"></div>
+  </section>
+</div>
+
+<div class="notice" id="notice"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+// Vlož sem URL tvého Google Apps Script (stejná jako u nástěnky)
+const SCRIPT_URL = localStorage.getItem('ai_adopce_config')
+  ? (JSON.parse(localStorage.getItem('ai_adopce_config')).scriptUrl || '')
+  : '';
+
+const PARTICIPANTS = [
+  {name:'Čipera Jiří',      email:'Jiri.Cipera@100mega.cz'},
+  {name:'Feik David',       email:'David.Feik@100mega.cz'},
+  {name:'Güttler Martin',   email:'Martin.Guttler@100mega.cz'},
+  {name:'Hájek Jakub',      email:'Jakub.Hajek@100mega.cz'},
+  {name:'Haluza Petr',      email:'Petr.Haluza@100mega.cz'},
+  {name:'Horák Tomáš',      email:'Tomas.Horak@100mega.cz'},
+  {name:'Hořice Jan',       email:'Jan.Horice@100mega.cz'},
+  {name:'Lattenberg Michaela', email:'Michaela.Lattenberg@100mega.cz'},
+  {name:'Med Jiří',         email:'Jiri.Med@100mega.cz'},
+  {name:'Petrovič David',   email:'David.Petrovic@100mega.cz'},
+  {name:'Popelák Ivo',      email:'Ivo.Popelak@100mega.cz'},
+  {name:'Simandl Martin',   email:'simandl@i4wifi.cz'},
+  {name:'Skalický Michal',  email:'skalicky@i4wifi.cz'},
+  {name:'Tatarinova Daria', email:'Daria.Tatarinova@100mega.cz'},
+  {name:'Trulay Jaroslav',  email:'trulay@asm.cz'},
+  {name:'Vorel David',      email:'David.Vorel@100mega.cz'},
+].sort((a,b) => a.name.localeCompare(b.name, 'cs'));
+
+// ── STATE ───────────────────────────────────────────────────────
+const state = {
+  step: 1,
+  person: null,
+  answers: {},
+};
+
+// ── STORAGE ─────────────────────────────────────────────────────
+function saveResponse(data) {
+  const all = JSON.parse(localStorage.getItem('skoleni_responses') || '[]');
+  const idx = all.findIndex(r => r.email === data.email);
+  if (idx >= 0) all[idx] = data; else all.push(data);
+  localStorage.setItem('skoleni_responses', JSON.stringify(all));
+}
+function getResponses() {
+  return JSON.parse(localStorage.getItem('skoleni_responses') || '[]');
+}
+
+// ── BUILD NAME GRID ─────────────────────────────────────────────
+const grid = document.getElementById('nameGrid');
+PARTICIPANTS.forEach(p => {
+  const btn = document.createElement('button');
+  btn.className = 'name-btn';
+  btn.innerHTML = `${esc(p.name)}<span class="dept">${esc(p.email)}</span>`;
+  btn.onclick = () => {
+    document.querySelectorAll('.name-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.person = p;
+    prefill(p.email);
+    goStep(2);
+  };
+  grid.appendChild(btn);
+});
+
+function prefill(email) {
+  ['n8nEmail','googleEmail','claudeEmail'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value) el.value = email.toLowerCase();
+  });
+}
+
+// ── YN BUTTONS ──────────────────────────────────────────────────
+const ynGroups = {
+  'yn-n8n':      {key:'n8nStatus',      cond:'cond-n8n',      show:['Mám účet','Registruji']},
+  'yn-google':   {key:'googleStatus',   cond:'cond-google',   show:['Mám účet']},
+  'yn-claude':   {key:'claudeStatus',   cond:'cond-claude',   show:['Mám účet','Registruji']},
+  'yn-vscode':   {key:'vscodeStatus',   cond:'cond-vscode',   show:['Jiný editor']},
+  'yn-cowork':   {key:'coworkStatus',   cond:null},
+  'yn-ubytovani':{key:'ubytovaniStatus',cond:null},
+};
+
+Object.entries(ynGroups).forEach(([groupId, cfg]) => {
+  const group = document.getElementById(groupId);
+  if (!group) return;
+  group.querySelectorAll('.yn-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      group.querySelectorAll('.yn-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.answers[cfg.key] = btn.dataset.val;
+      if (cfg.cond) {
+        const cond = document.getElementById(cfg.cond);
+        if (cond) cond.classList.toggle('show', cfg.show.includes(btn.dataset.val));
+      }
+      updateBtn();
+    });
+  });
+});
+
+// ── VALIDATION ──────────────────────────────────────────────────
+function isStep2Valid() {
+  const a = state.answers;
+  if (!a.n8nStatus) return false;
+  if (['Mám účet','Registruji'].includes(a.n8nStatus) && !document.getElementById('n8nEmail').value.trim()) return false;
+  if (!a.googleStatus) return false;
+  if (a.googleStatus === 'Mám účet' && !document.getElementById('googleEmail').value.trim()) return false;
+  if (!a.claudeStatus) return false;
+  if (['Mám účet','Registruji'].includes(a.claudeStatus)) {
+    if (!document.getElementById('claudeEmail').value.trim()) return false;
+    if (!document.getElementById('claudeLicense').value) return false;
+  }
+  return true;
+}
+function isStep3Valid() {
+  if (!state.answers.vscodeStatus) return false;
+  if (!state.answers.ubytovaniStatus) return false;
+  const ids = ['internetStatus','emailAccessStatus','filesStatus','notebookStatus'];
+  return ids.every(id => document.getElementById(id).value);
+}
+
+function updateBtn() {
+  const n2 = document.getElementById('next2');
+  const n3 = document.getElementById('btnSubmit');
+  if (n2) n2.disabled = !isStep2Valid();
+  if (n3) n3.disabled = !isStep3Valid();
+}
+
+// watch inputs
+document.querySelectorAll('input,select').forEach(el => {
+  el.addEventListener('input', updateBtn);
+  el.addEventListener('change', updateBtn);
+});
+
+// ── STEPS ───────────────────────────────────────────────────────
+function goStep(n) {
+  state.step = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const target = document.querySelector(`[data-step="${n}"]`);
+  if (target) target.classList.add('active');
+  const pct = Math.round(((n-1)/2)*100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('stepLabel').textContent = `Krok ${n} ze 3`;
+  document.getElementById('stepPct').textContent = pct + ' %';
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateBtn();
+}
+
+document.getElementById('back2').onclick = () => goStep(1);
+document.getElementById('back3').onclick = () => goStep(2);
+document.getElementById('next2').onclick = () => { if(isStep2Valid()) goStep(3); };
+
+// ── SUBMIT ──────────────────────────────────────────────────────
+document.getElementById('btnSubmit').onclick = async () => {
+  if (!isStep3Valid()) return;
+  const status = document.getElementById('formStatus');
+  status.textContent = 'Ukládám…';
+
+  const data = {
+    name: state.person.name,
+    email: state.person.email,
+    timestamp: new Date().toLocaleString('cs-CZ'),
+    n8nStatus: state.answers.n8nStatus || '',
+    n8nEmail: document.getElementById('n8nEmail').value.trim(),
+    googleStatus: state.answers.googleStatus || '',
+    googleEmail: document.getElementById('googleEmail').value.trim(),
+    claudeStatus: state.answers.claudeStatus || '',
+    claudeEmail: document.getElementById('claudeEmail').value.trim(),
+    claudeLicense: document.getElementById('claudeLicense').value,
+    geminiStatus: document.getElementById('geminiStatus').value,
+    chatgptStatus: document.getElementById('chatgptStatus').value,
+    perplexityStatus: document.getElementById('perplexityStatus').value,
+    vscodeStatus: state.answers.vscodeStatus || '',
+    editorOther: document.getElementById('editorOther').value.trim(),
+    coworkStatus: state.answers.coworkStatus || '',
+    claudeCodeStatus: document.getElementById('claudeCodeStatus').value,
+    terminalStatus: document.getElementById('terminalStatus').value,
+    hypervStatus: document.getElementById('hypervStatus').value,
+    virtualMachineStatus: document.getElementById('virtualMachineStatus').value,
+    internetStatus: document.getElementById('internetStatus').value,
+    emailAccessStatus: document.getElementById('emailAccessStatus').value,
+    filesStatus: document.getElementById('filesStatus').value,
+    notebookStatus: document.getElementById('notebookStatus').value,
+    ubytovaniStatus: state.answers.ubytovaniStatus || '',
+    note: document.getElementById('technicalNote').value.trim(),
+  };
+
+  saveResponse(data);
+
+  if (SCRIPT_URL) {
+    try {
+      await fetch(SCRIPT_URL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({action:'addSkoleni', data})
+      });
+    } catch(e) {}
+  }
+
+  showSuccess(data);
+};
+
+function showSuccess(data) {
+  document.getElementById('formScreen').classList.add('hidden');
+  document.getElementById('successScreen').classList.remove('hidden');
+  document.getElementById('successName').textContent = data.name.split(' ')[0];
+
+  const good = ['mám','funguje','ověřeno','aktivní','nainstalováno','připraveno','ano','umím','vezmu','free','placená','firemní'];
+  const bad  = ['nemám','není','nefunguje','blokováno','neumím'];
+  function cls(v) {
+    const n = String(v||'').toLowerCase();
+    if (!n || n==='-') return 'warn';
+    if (bad.some(w=>n.includes(w))) return 'bad';
+    if (good.some(w=>n.includes(w))) return 'ok';
+    return 'warn';
+  }
+
+  const rows = [
+    ['Jméno', data.name],
+    ['n8n', data.n8nStatus + (data.n8nEmail ? ' · '+data.n8nEmail : '')],
+    ['Google', data.googleStatus + (data.googleEmail ? ' · '+data.googleEmail : '')],
+    ['Claude', data.claudeStatus + (data.claudeLicense ? ' · '+data.claudeLicense : '')],
+    ['Gemini / ChatGPT / Perplexity', [data.geminiStatus,data.chatgptStatus,data.perplexityStatus].filter(Boolean).join(' | ')],
+    ['VS Code / editor', data.vscodeStatus + (data.editorOther ? ' ('+data.editorOther+')' : '')],
+    ['Claude Cowork', data.coworkStatus],
+    ['Internet', data.internetStatus],
+    ['Soubory', data.filesStatus],
+    ['Notebook', data.notebookStatus],
+    ['Ubytování', data.ubytovaniStatus],
+    ['Poznámka', data.note || '—'],
+  ];
+
+  document.getElementById('summaryBox').innerHTML = rows
+    .filter(([,v])=>v)
+    .map(([k,v])=>`<div class="summary-row"><span class="summary-key">${esc(k)}</span><span class="summary-val ${cls(v)}">${esc(v)}</span></div>`)
+    .join('');
+}
+
+document.getElementById('btnNewResponse').onclick = () => location.reload();
+document.getElementById('btnCopySummary').onclick = () => {
+  const text = document.getElementById('summaryBox').innerText;
+  copyText(text, 'Shrnutí zkopírováno ✓');
+};
+
+// ── DASHBOARD ───────────────────────────────────────────────────
+document.getElementById('btnDashboard').onclick = showDashboard;
+document.getElementById('btnBackToForm').onclick = () => {
+  document.getElementById('dashboardScreen').classList.add('hidden');
+  document.getElementById('formScreen').classList.remove('hidden');
+};
+document.getElementById('btnExportCsv').onclick = exportCsv;
+document.getElementById('btnCopyOverview').onclick = () => {
+  copyText(buildOverviewText(), 'Souhrn zkopírován ✓');
+};
+
+function showDashboard() {
+  document.getElementById('formScreen').classList.add('hidden');
+  document.getElementById('successScreen').classList.add('hidden');
+  document.getElementById('dashboardScreen').classList.remove('hidden');
+  renderDashboard();
+}
+
+function renderDashboard() {
+  const responses = getResponses();
+  const answered = responses.length;
+  const total = PARTICIPANTS.length;
+  const missing = total - answered;
+  const needHelp = responses.filter(r =>
+    r.note || r.internetStatus?.includes('blokováno') ||
+    r.hypervStatus?.includes('admina') || r.filesStatus?.includes('neumím')
+  ).length;
+
+  document.getElementById('metrics').innerHTML = `
+    <div class="metric"><strong>${answered}/${total}</strong><span>Vyplněno</span></div>
+    <div class="metric"><strong>${missing}</strong><span>Čeká na odpověď</span></div>
+    <div class="metric"><strong>${needHelp}</strong><span>Potřebuje pomoc</span></div>
+  `;
+
+  const responseMap = Object.fromEntries(responses.map(r => [r.email, r]));
+
+  document.getElementById('overviewList').innerHTML = PARTICIPANTS.map(p => {
+    const r = responseMap[p.email];
+    if (!r) return `
+      <div class="overview-card">
+        <button class="overview-person" style="border-bottom:none;padding-bottom:0">
+          <div><div class="person-name">${esc(p.name)}</div><div class="person-email">${esc(p.email)}</div></div>
+          <span class="badge bad">Nevyplněno</span>
+          <span class="toggle-hint"></span>
+        </button>
+      </div>`;
+
+    return `
+      <div class="overview-card collapsed">
+        <button class="overview-person" onclick="this.closest('.overview-card').classList.toggle('collapsed')">
+          <div><div class="person-name">${esc(r.name)}</div><div class="person-email">${esc(r.timestamp)}</div></div>
+          <span class="badge ok">Vyplněno</span>
+          <span class="toggle-hint">Zobrazit / sbalit</span>
+        </button>
+        <div class="overview-details">
+          <div class="detail-grid">
+            <div class="detail-section">
+              <h3>Účty</h3>
+              <div class="detail-line">n8n: <span class="badge ${cls(r.n8nStatus)}">${esc(r.n8nStatus||'-')}</span></div>
+              <div class="detail-line">Google: <span class="badge ${cls(r.googleStatus)}">${esc(r.googleStatus||'-')}</span></div>
+              <div class="detail-line">Claude: <span class="badge ${cls(r.claudeStatus)}">${esc(r.claudeStatus||'-')}</span>${r.claudeLicense?' ('+esc(r.claudeLicense)+')':''}</div>
+            </div>
+            <div class="detail-section">
+              <h3>AI nástroje</h3>
+              <div class="detail-line">Gemini: <span class="badge ${cls(r.geminiStatus)}">${esc(r.geminiStatus||'-')}</span></div>
+              <div class="detail-line">ChatGPT: <span class="badge ${cls(r.chatgptStatus)}">${esc(r.chatgptStatus||'-')}</span></div>
+              <div class="detail-line">Perplexity: <span class="badge ${cls(r.perplexityStatus)}">${esc(r.perplexityStatus||'-')}</span></div>
+            </div>
+            <div class="detail-section">
+              <h3>Software</h3>
+              <div class="detail-line">Editor: <span class="badge ${cls(r.vscodeStatus)}">${esc(r.vscodeStatus||'-')}</span></div>
+              <div class="detail-line">Cowork: <span class="badge ${cls(r.coworkStatus)}">${esc(r.coworkStatus||'-')}</span></div>
+              <div class="detail-line">Internet: <span class="badge ${cls(r.internetStatus)}">${esc(r.internetStatus||'-')}</span></div>
+              <div class="detail-line">Notebook: <span class="badge ${cls(r.notebookStatus)}">${esc(r.notebookStatus||'-')}</span></div>
+            </div>
+            <div class="detail-section">
+              <h3>IT / Poznámka</h3>
+              <div class="detail-line">Hyper-V: <span class="badge ${cls(r.hypervStatus)}">${esc(r.hypervStatus||'-')}</span></div>
+              <div class="detail-line">Ubytování: <span class="badge ${cls(r.ubytovaniStatus)}">${esc(r.ubytovaniStatus||'-')}</span></div>
+              ${r.note?`<div class="detail-line" style="color:var(--amber);margin-top:6px">📝 ${esc(r.note)}</div>`:''}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function cls(v) {
+  const n = String(v||'').toLowerCase();
+  if (!n||n==='-') return 'warn';
+  const bad=['nemám','není','nefunguje','blokováno','neumím','nevyplněno'];
+  const good=['mám','funguje','ověřeno','aktivní','nainstalováno','ano','umím','vezmu'];
+  if (bad.some(w=>n.includes(w))) return 'bad';
+  if (good.some(w=>n.includes(w))) return 'ok';
+  return 'warn';
+}
+
+function buildOverviewText() {
+  const responses = getResponses();
+  const responseMap = Object.fromEntries(responses.map(r=>[r.email,r]));
+  const lines = ['=== PŘÍPRAVA NA ŠKOLENÍ AI — PŘEHLED ===', `Vygenerováno: ${new Date().toLocaleString('cs-CZ')}`, `Vyplněno: ${responses.length}/${PARTICIPANTS.length}`, ''];
+  PARTICIPANTS.forEach(p => {
+    const r = responseMap[p.email];
+    if (!r) { lines.push(`✗ ${p.name} — NEVYPLNĚNO`); return; }
+    lines.push(`✓ ${r.name} | n8n: ${r.n8nStatus} | Claude: ${r.claudeStatus} | Editor: ${r.vscodeStatus} | Internet: ${r.internetStatus} | Ubytování: ${r.ubytovaniStatus}${r.note?' | Poznámka: '+r.note:''}`);
+  });
+  return lines.join('\n');
+}
+
+function exportCsv() {
+  const responses = getResponses();
+  const responseMap = Object.fromEntries(responses.map(r=>[r.email,r]));
+  const header = ['Jméno','E-mail','Vyplněno','n8n','Google','Claude','Gemini','ChatGPT','Perplexity','VS Code','Cowork','Internet','Soubory','Notebook','Hyper-V','Ubytování','Poznámka'];
+  const rows = PARTICIPANTS.map(p => {
+    const r = responseMap[p.email];
+    if (!r) return [p.name, p.email, 'Nevyplněno', ...Array(15).fill('')];
+    return [r.name,r.email,r.timestamp,r.n8nStatus,r.googleStatus,r.claudeStatus,r.geminiStatus,r.chatgptStatus,r.perplexityStatus,r.vscodeStatus,r.coworkStatus,r.internetStatus,r.filesStatus,r.notebookStatus,r.hypervStatus,r.ubytovaniStatus,r.note];
+  });
+  const csv = [header,...rows].map(row=>row.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(';')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download = 'skoleni-priprava.csv';
+  a.click();
+}
+
+// ── UTILS ────────────────────────────────────────────────────────
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function showNotice(msg){const n=document.getElementById('notice');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2200)}
+async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const a=document.createElement('textarea');a.value=text;a.style.position='fixed';a.style.left='-9999px';document.body.append(a);a.select();document.execCommand('copy');a.remove()}showNotice(msg)}
+</script>
+</body>
 </html>
